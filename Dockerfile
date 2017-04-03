@@ -1,10 +1,11 @@
 FROM python:2.7-slim
 
-ADD . /app
+COPY . /app
 
-RUN useradd -u 10106 -r -s /bin/false monitor
-RUN chmod 755 /app/bin/entrypoint.sh
+RUN pip install requests && \
+    useradd -u 10106 -r -s /bin/false monitor && \
+    chmod 755 /app/bin/entrypoint.sh
 
 USER monitor
 
-ENTRYPOINT [ "/app/bin/entrypoint.sh" ]
+ENTRYPOINT ["/app/bin/entrypoint.sh"]

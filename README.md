@@ -1,5 +1,19 @@
 # elasticsearch-metrics
 
+## Dependencies
+
+This script work with python2.
+
+- pip install requests
+
+## Changes after fork
+
+- Added post to the index to make it work with es5 (mappings)
+- Added Requests installation via pip to Dockerfile
+- Dockerfile corrected to pass lint
+
+## Grafana dashboard
+
 https://grafana.net/dashboards/878
 
 Run either as a standalone script or docker container.
