@@ -14,6 +14,7 @@ interval = 60
 elasticIndex = os.environ.get('ES_METRICS_INDEX_NAME', 'elasticsearch_metrics')
 elasticMonitoringCluster = os.environ.get('ES_METRICS_MONITORING_CLUSTER_URL', 'http://localhost:9200')
 
+# I added this to check when the index change (daily)
 LAST_INDEX = "empty"
 
 def fetch_clusterhealth():
@@ -104,9 +105,12 @@ def fix_mappings():
         'index_period': utc_datetime.strftime("%Y.%m.%d"),
     }
     mapping = "%(cluster)s/%(index)s-%(index_period)s/_mapping/message?update_all_types" % url_parameters
-    data1 = json.dumps({"properties": {"name": {"type": "text", "fielddata": 'true'}}})
+    ## first
+    # data1 = json.dumps({"properties": {"name": {"type": "text", "fielddata": 'true'}}})
+    data1 = json.dumps({"properties": {"name": {"type": "text", "fielddata": "true", "fields": {"keyword": {"type": "keyword"}}}}})
     req1 = requests.post(url=mapping, headers=headers, data=data1)
     print req1.json()
+    ## second
     data2 = json.dumps({"properties": {"status": {"type": "text", "fielddata": 'true'}}})
     req2 = requests.post(url=mapping, headers=headers, data=data2)
     print req2.json()
